@@ -1,0 +1,36 @@
+spring:
+  application:
+    name: Web-Spotify-Data-Visualization-System
+
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://localhost:3306/spotify_visualization_system?useSSL=false&serverTimezone=UTC
+    username: root
+    password:
+
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+server:
+  address: 0.0.0.0
+  port: 8011
+  servlet:
+    context-path: /api
+    # cookie expires after 30 days
+    session:
+      cookie:
+        max-age: 2592000
+
+mybatis-plus:
+  type-aliases-package: com.gavinjin.wsdvs
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+#  global-config:
+#    db-config:
+#      logic-delete-field: isDelete # logical delete field
+#      logic-delete-value: 1 # logical deleted state: by default is 1
+#      logic-not-delete-value: 0 # logical not deleted state: by default is 0
+
+user-service:
+  encrypt-salt: "Gavin Jin"
