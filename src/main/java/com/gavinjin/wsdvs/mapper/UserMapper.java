@@ -7,6 +7,5 @@ import org.apache.ibatis.annotations.Mapper;
 /**
  * SQL operations on user table
  */
-// @Mapper
 public interface UserMapper extends BaseMapper<User> {
 }

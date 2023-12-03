@@ -38,4 +38,8 @@ public interface UserService extends IService<User> {
      * @return
      */
     boolean userLogout(HttpServletRequest request);
+
+    String convertUserAddressToString(String fileName);
+
+    User getLoggedInUser(HttpServletRequest request);
 }

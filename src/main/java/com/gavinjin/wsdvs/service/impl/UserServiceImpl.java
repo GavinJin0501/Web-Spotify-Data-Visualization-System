@@ -16,6 +16,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.DigestUtils;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import static com.gavinjin.wsdvs.utils.constant.UserConstant.*;
 
@@ -28,8 +30,6 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
 
     @Override
     public long userRegister(String username, String password, String checkPassword) {
-        System.out.println(SALT);
-
         // Validation
         if (StringUtils.isAnyBlank(username, password, checkPassword)) {
             throw new BusinessException(StatusCode.PARAMS_ERROR, "Parameter is empty");
@@ -88,9 +88,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             throw new BusinessException(StatusCode.PARAMS_ERROR, "User does not exist or incorrect password");
         }
 
-        LoginUserVO loginUserVO = getLoginUserVO(user);
-        request.getSession().setAttribute(USER_LOGIN_STATE, loginUserVO);
-        return loginUserVO;
+        request.getSession().setAttribute(USER_LOGIN_STATE, user);
+        return getLoginUserVO(user);
     }
 
     @Override
@@ -113,4 +112,58 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
         return true;
     }
 
+    @Override
+    public String convertUserAddressToString(String content) {
+        StringBuilder sb = new StringBuilder();
+        try {
+            if (!content.startsWith("List(") || !content.endsWith(")")) {
+                return "";
+            }
+            content = content.substring(5, content.length() - 1);
+
+            String regex = "Map\\((.*?)\\)";
+            Pattern pattern = Pattern.compile(regex);
+            Matcher matcher = pattern.matcher(content);
+
+
+            while (matcher.find()) {
+                StringBuilder addr = new StringBuilder();
+                String[] parts = matcher.group(1).split(", ");
+
+                for (String part : parts) {
+                    String[] pair = part.split(" -> ");
+                    String key = pair[0], val = pair[1];
+                    if (addr.length() != 0) {
+                        addr.append(",");
+                    }
+                    addr.append(String.format("\"%s\":\"%s\"", key, val));
+                }
+
+                if (sb.length() != 0) {
+                    sb.append(",");
+                }
+                sb.append(String.format("{%s}", addr));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return String.format("[%s]", sb);
+    }
+
+    @Override
+    public User getLoggedInUser(HttpServletRequest request) {
+        User user = (User) request.getSession().getAttribute(USER_LOGIN_STATE);
+        if (user == null || user.getId() == null) {
+            throw new BusinessException(StatusCode.NOT_LOGIN_ERROR);
+        }
+
+        long userId = user.getId();
+        user = getById(userId);
+        if (user == null) {
+            throw new BusinessException(StatusCode.NOT_LOGIN_ERROR);
+        }
+
+        return user;
+    }
 }

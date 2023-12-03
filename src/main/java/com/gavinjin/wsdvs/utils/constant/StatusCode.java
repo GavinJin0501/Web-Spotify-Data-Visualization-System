@@ -7,6 +7,7 @@ public enum StatusCode {
     SUCCESS(0, "ok"),
     PARAMS_ERROR(20000, "Request parameter error"),
     OPERATION_ERROR(20100, "Operation error"),
+    NOT_LOGIN_ERROR(20200, "User hasn't logged in"),
     SYSTEM_ERROR(20500, "Server error");
 
     /**

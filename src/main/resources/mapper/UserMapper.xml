@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gavinjin.wsdvs.mapper.UserMapper">
+    <resultMap id="BaseResultMap" type="com.gavinjin.wsdvs.model.domain.User">
+        <id property="id" column="id" jdbcType="BIGINT"/>
+        <result property="username" column="username" jdbcType="VARCHAR"/>
+        <result property="password" column="password" jdbcType="VARCHAR"/>
+
+        <result property="spotifyUsername" column="spotify_username"            jdbcType="VARCHAR"/>
+        <result property="spotifyEmail" column="spotify_email"               jdbcType="VARCHAR"/>
+        <result property="spotifyCountry" column="spotify_country"             jdbcType="VARCHAR"/>
+        <result property="spotifyCreatedFromFacebook" column="spotify_created_from_facebook" jdbcType="VARCHAR"/>
+        <result property="spotifyFacebookUid" column="spotify_facebook_uid"         jdbcType="BOOLEAN"/>
+        <result property="spotifyGender" column="spotify_gender"              jdbcType="VARCHAR"/>
+        <result property="spotifyPostalCode" column="spotify_postal_code"          jdbcType="VARCHAR"/>
+        <result property="spotifyMobileNumber" column="spotify_mobile_number"        jdbcType="VARCHAR"/>
+        <result property="spotifyMobileOperator" column="spotify_mobile_operator"      jdbcType="VARCHAR"/>
+        <result property="spotifyMobileBrand" column="spotify_mobile_brand"         jdbcType="VARCHAR"/>
+        <result property="spotifyBirthdate" column="spotify_birthdate"           jdbcType="DATE"/>
+        <result property="spotifyCreateTime" column="spotify_create_time"          jdbcType="DATE"/>
+
+        <result property="spotifyAddresses" column="spotify_addresses"           jdbcType="VARCHAR"/>
+        <result property="spotifyPayments" column="spotify_payments"            jdbcType="VARCHAR"/>
+        <result property="spotifyInferences" column="spotify_inferences"          jdbcType="VARCHAR"/>
+    </resultMap>
+</mapper>
