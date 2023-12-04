@@ -4,7 +4,6 @@ import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 @TableName(value = "user")
 @Data
@@ -38,7 +37,7 @@ public class User implements Serializable {
     private String spotifyFacebookUid;
 
     @TableField(value = "spotify_birthdate", updateStrategy = FieldStrategy.IGNORED)
-    private Date spotifyBirthdate;
+    private String spotifyBirthdate;
 
     @TableField(value = "spotify_gender", updateStrategy = FieldStrategy.IGNORED)
     private String spotifyGender;
@@ -56,7 +55,7 @@ public class User implements Serializable {
     private String spotifyMobileBrand;
 
     @TableField(value = "spotify_create_time", updateStrategy = FieldStrategy.IGNORED)
-    private Date spotifyCreateTime;
+    private String spotifyCreateTime;
 
 
     @TableField(value = "spotify_addresses", updateStrategy = FieldStrategy.IGNORED)
@@ -67,4 +66,10 @@ public class User implements Serializable {
 
     @TableField(value = "spotify_inferences", updateStrategy = FieldStrategy.IGNORED)
     private String spotifyInferences;
+
+    @TableField("playlists_ready")
+    private Boolean playlistsReady;
+
+    @TableField("streaming_history_ready")
+    private Boolean streamingHistoryReady;
 }

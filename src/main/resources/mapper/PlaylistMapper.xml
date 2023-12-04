@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gavinjin.wsdvs.mapper.PlaylistMapper">
+    <resultMap id="BaseResultMap" type="com.gavinjin.wsdvs.model.domain.PlaylistSong">
+        <result property="playlistName" column="playlist_name" jdbcType="VARCHAR"/>
+        <result property="trackName" column="track_name" jdbcType="VARCHAR"/>
+        <result property="artistName" column="artist_name" jdbcType="VARCHAR"/>
+        <result property="albumName" column="album_name" jdbcType="VARCHAR"/>
+        <result property="trackUri" column="track_uri" jdbcType="VARCHAR"/>
+        <result property="addedDate" column="added_date" jdbcType="DATE"/>
+    </resultMap>
+
+    <update id="createNewPlaylistTable" parameterType="java.lang.String">
+        CREATE TABLE IF NOT EXISTS ${tableName} (
+            playlist_name   VARCHAR(512)    comment 'playlist name',
+            track_name      VARCHAR(512)    comment 'track name',
+            artist_name     VARCHAR(512)    comment 'artist name',
+            album_name      VARCHAR(512)    comment 'album name',
+            track_uri       VARCHAR(512)    comment 'track uri',
+            added_date      DATE            comment 'added date',
+#             PRIMARY KEY (playlist_name, track_uri),
+            index idx_playlist_name(playlist_name)
+        )
+    </update>
+
+    <insert id="insertAllSongs" parameterType="java.util.ArrayList">
+        INSERT INTO ${tableName} (playlist_name, track_name, artist_name, album_name, track_uri, added_date)
+        VALUES 
+            <foreach collection="list" item="item" index="index" separator=",">
+                (#{item.playlistName}, #{item.trackName}, #{item.artistName}, #{item.albumName}, #{item.trackUri}, #{item.addedDate})
+            </foreach>
+    </insert>
+</mapper>

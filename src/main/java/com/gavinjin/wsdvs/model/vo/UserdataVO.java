@@ -19,7 +19,7 @@ public class UserdataVO {
 
     private String spotifyFacebookUid;
 
-    private Date spotifyBirthdate;
+    private String spotifyBirthdate;
 
     private String spotifyGender;
 
@@ -31,11 +31,15 @@ public class UserdataVO {
 
     private String spotifyMobileBrand;
 
-    private Date spotifyCreateTime;
+    private String spotifyCreateTime;
 
     private String spotifyAddresses;
 
     private String spotifyPayments;
 
     private String spotifyInferences;
+
+    private Boolean playlistsReady;
+
+    private Boolean streamingHistoryReady;
 }

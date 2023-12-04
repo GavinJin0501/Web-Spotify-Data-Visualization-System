@@ -2,7 +2,7 @@ package com.gavinjin.wsdvs.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.gavinjin.wsdvs.model.domain.User;
-import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Update;
 
 /**
  * SQL operations on user table

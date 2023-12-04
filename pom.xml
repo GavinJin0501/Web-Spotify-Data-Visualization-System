@@ -75,6 +75,13 @@
             <artifactId>knife4j-spring-boot-starter</artifactId>
             <version>3.0.3</version>
         </dependency>
+
+        <!-- https://mvnrepository.com/artifact/com.googlecode.jen-api/jen-api -->
+        <dependency>
+            <groupId>com.googlecode.jen-api</groupId>
+            <artifactId>jen-api</artifactId>
+            <version>4.x.p</version>
+        </dependency>
     </dependencies>
 
     <build>

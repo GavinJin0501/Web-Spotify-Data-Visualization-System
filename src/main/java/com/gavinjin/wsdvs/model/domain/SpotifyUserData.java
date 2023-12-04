@@ -2,8 +2,6 @@ package com.gavinjin.wsdvs.model.domain;
 
 import lombok.Data;
 
-import java.util.Date;
-
 @Data
 public class SpotifyUserData {
     private String username;
@@ -16,7 +14,7 @@ public class SpotifyUserData {
 
     private String facebookUid;
 
-    private Date birthdate;
+    private String birthdate;
 
     private String gender;
 
@@ -28,5 +26,7 @@ public class SpotifyUserData {
 
     private String mobileBrand;
 
-    private Date creationTime;
+    private String creationTime;
+
+
 }

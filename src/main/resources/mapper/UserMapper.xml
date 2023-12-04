@@ -24,5 +24,8 @@
         <result property="spotifyAddresses" column="spotify_addresses"           jdbcType="VARCHAR"/>
         <result property="spotifyPayments" column="spotify_payments"            jdbcType="VARCHAR"/>
         <result property="spotifyInferences" column="spotify_inferences"          jdbcType="VARCHAR"/>
+
+        <result property="playlistsReady" column="playlists_ready" jdbcType="BOOLEAN"/>
+        <result property="streamingHistoryReady" column="streaming_history_ready" jdbcType="BOOLEAN"/>
     </resultMap>
 </mapper>
