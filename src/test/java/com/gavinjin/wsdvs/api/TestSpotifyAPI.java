@@ -16,13 +16,13 @@ public class TestSpotifyAPI {
 
     private static String SECRET_KEY = "BQCsvK1-WeRjHrO08e1rHkwjn1rCul9BtOsyLT-tVr2LhE5E_cL8AgQ9pi5FLLdYNqEEOHwrABlPn5jgsvky0Ye0qTaOIJEJ_53YbK_VbDn2v5yj28s";
 
-    // @Test
+    @Test
     void getSecretKey() {
         // grant_type=client_credentials&client_id=your-client-id&client_secret=your-client-secret
         Map<String, String> parameterMap = new HashMap<>();
         parameterMap.put("grant_type", "client_credentials");
         parameterMap.put("client_id", "5c3909f7bf1b47fc8c027c86a266250c");
-        parameterMap.put("client_secret", "3d235141b6924940b7cffa5161e923ce");
+        parameterMap.put("client_secret", "2211f1f5f2db40ca9a463552ac47030b");
         String formData = HttpUtil.toParams(parameterMap);
 
         String url = "https://accounts.spotify.com/api/token";
@@ -45,7 +45,7 @@ public class TestSpotifyAPI {
     @Test
     void getTracksInfo() {
         List<String> tracks = Arrays.asList("7imMaU3xinJn9QQITBDMwQ", "3Y48QiWUzLNtIFVO8QlggC");
-        List<String> tracksInfo = spotifyApi.getTracksInfo(tracks);
+        String tracksInfo = spotifyApi.getTracksInfo(tracks);
         System.out.println(tracksInfo);
     }
 }

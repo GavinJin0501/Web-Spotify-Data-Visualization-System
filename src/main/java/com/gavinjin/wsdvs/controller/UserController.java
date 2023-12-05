@@ -2,9 +2,7 @@ package com.gavinjin.wsdvs.controller;
 
 import cn.hutool.core.bean.BeanUtil;
 import cn.hutool.core.io.FileUtil;
-import cn.hutool.json.JSONParser;
 import cn.hutool.json.JSONUtil;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gavinjin.wsdvs.model.domain.SpotifyUserData;
 import com.gavinjin.wsdvs.model.domain.User;
 import com.gavinjin.wsdvs.model.dto.BaseResponse;
@@ -29,12 +27,12 @@ import java.util.*;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
+import static com.gavinjin.wsdvs.utils.constant.UserConstant.VALID_COMPRESSED_FILE_SUFFICES;
+
 @RestController
 @RequestMapping("/user")
 @Slf4j
 public class UserController {
-    private final static Set<String> validFileSuffices = new HashSet<>(Arrays.asList("zip", "rar"));
-
     @Resource
     private UserService userService;
 
@@ -101,7 +99,7 @@ public class UserController {
         // First, check if the file is a valid zip/rar
         String filename = multipartFile.getOriginalFilename();
         String suffix = FileUtil.getSuffix(filename);
-        if (!validFileSuffices.contains(suffix)) {
+        if (!VALID_COMPRESSED_FILE_SUFFICES.contains(suffix)) {
             return ResponseUtils.error(StatusCode.PARAMS_ERROR.getCode(), "Uploaded file is not a compressed file format");
         }
 
@@ -196,51 +194,4 @@ public class UserController {
         user.setSpotifyPayments(personalInfo.get("Payments.json"));
     }
 
-    @PostMapping("/upload-extended-streaming-history")
-    public BaseResponse<Boolean> uploadExtendedStreamingHistory(@RequestPart("file") MultipartFile multipartFile, HttpServletRequest request) {
-        if (request == null) {
-            throw new BusinessException(StatusCode.PARAMS_ERROR, "Empty http request");
-        }
-
-        // First, check if the file is a valid zip/rar
-        String filename = multipartFile.getOriginalFilename();
-        String suffix = FileUtil.getSuffix(filename);
-        if (!validFileSuffices.contains(suffix)) {
-            return ResponseUtils.error(StatusCode.PARAMS_ERROR.getCode(), "Uploaded file is not a compressed file format");
-        }
-
-        try (ZipInputStream zipInputStream = new ZipInputStream(multipartFile.getInputStream())) {
-            ZipEntry entry = zipInputStream.getNextEntry();
-            if (entry == null) {
-                return ResponseUtils.error(StatusCode.PARAMS_ERROR.getCode(), "Uploaded file is not in a correct format");
-            }
-
-            String folderName = entry.getName();
-            while ((entry = zipInputStream.getNextEntry()) != null) {
-                if (entry.isDirectory()) {
-                    continue;
-                }
-
-                String path = entry.getName();
-                if (path.startsWith("__MACOSX") || path.length() < folderName.length() || !path.substring(folderName.length()).contains("Streaming_History_Audio")) {
-                    continue;
-                }
-
-                // Parse data here
-                System.out.println(path);
-            }
-
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            return ResponseUtils.error(StatusCode.SYSTEM_ERROR.getCode(), "Fail to unzip the uploaded file");
-        }
-
-        // ObjectMapper objectMapper = new ObjectMapper();
-        // try (JSONParser jsonParser = objectMapper.getFactory().createParser()) {
-        //
-        // }
-
-        return ResponseUtils.success(true);
-    }
 }

@@ -18,11 +18,12 @@
             track_name      VARCHAR(512)    comment 'track name',
             artist_name     VARCHAR(512)    comment 'artist name',
             album_name      VARCHAR(512)    comment 'album name',
-            track_uri       VARCHAR(512)    comment 'track uri',
+            track_uri       VARCHAR(64)     comment 'track uri',
             added_date      DATE            comment 'added date',
 #             PRIMARY KEY (playlist_name, track_uri),
-            index idx_playlist_name(playlist_name)
-        )
+            index idx_playlist_name(playlist_name),
+            index idx_track_uri(track_uri)
+        ) collate = utf8mb4_unicode_ci;
     </update>
 
     <insert id="insertAllSongs" parameterType="java.util.ArrayList">
@@ -32,4 +33,26 @@
                 (#{item.playlistName}, #{item.trackName}, #{item.artistName}, #{item.albumName}, #{item.trackUri}, #{item.addedDate})
             </foreach>
     </insert>
+
+    <resultMap id="PlaylistFeaturesMap" type="com.gavinjin.wsdvs.model.vo.PlaylistFeaturesVO">
+        <result property="playlistName" column="playlist_name" jdbcType="VARCHAR"/>
+        <result property="danceability" column="danceability" jdbcType="DOUBLE"/>
+        <result property="energy" column="energy" jdbcType="DOUBLE"/>
+        <result property="loudness" column="loudness" jdbcType="DOUBLE"/>
+        <result property="liveness" column="liveness" jdbcType="DOUBLE"/>
+        <result property="valence" column="valence" jdbcType="DOUBLE"/>
+        <result property="tempo" column="tempo" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <select id="getPlaylistFeatures" parameterType="java.lang.String" resultMap="PlaylistFeaturesMap">
+        SELECT p.playlist_name AS playlist_name,
+               AVG(s.danceability) AS danceability,
+               AVG(s.energy) AS energy,
+               AVG(s.loudness) AS loudness,
+               AVG(s.liveness) AS liveness,
+               AVG(s.valence) AS valence,
+               AVG(s.tempo) AS tempo
+        FROM ${tableName} AS p JOIN song_features AS s ON p.track_uri = s.track_uri
+        GROUP BY p.playlist_name
+    </select>
 </mapper>

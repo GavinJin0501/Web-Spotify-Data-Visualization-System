@@ -3,5 +3,28 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.gavinjin.wsdvs.mapper.ExtendedStreamingHistoryMapper">
+    <resultMap id="BaseResultMap" type="com.gavinjin.wsdvs.model.domain.ExtendedStreamingHistorySong">
+        <result property="trackUri" column="track_uri" jdbcType="VARCHAR"/>
+        <result property="timestamp" column="timestamp" jdbcType="VARCHAR"/>
+        <result property="millisecondsPlayed" column="ms_played" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <update id="createNewExtendedStreamingHistoryTable" parameterType="java.lang.String">
+        CREATE TABLE IF NOT EXISTS ${tableName} (
+            track_uri   VARCHAR(64)    comment 'track uri',
+            timestamp   VARCHAR(64)    comment 'timestamp listening to songs',
+            ms_played   LONG            comment 'milliseconds of music played',
+            index idx_history_timestamp(timestamp),
+            index idx_track_uri(track_uri)
+        ) collate = utf8mb4_unicode_ci;
+    </update>
+
+    <insert id="insertAllHistories" parameterType="java.util.ArrayList">
+        INSERT INTO ${tableName} (track_uri, timestamp, ms_played)
+        VALUES
+            <foreach collection="list" item="item" index="index" separator=",">
+                (#{item.trackUri}, #{item.timestamp}, #{item.millisecondsPlayed})
+            </foreach>
+    </insert>
 
 </mapper>

@@ -32,7 +32,7 @@ CREATE TABLE IF NOT EXISTS user (
 
 DROP TABLE IF EXISTS song_features;
 CREATE TABLE IF NOT EXISTS song_features (
-    track_uri        VARCHAR(512) PRIMARY KEY comment 'track uri',
+    track_uri        VARCHAR(64) PRIMARY KEY  comment 'track uri',
     danceability     DOUBLE                   comment 'danceability',
     energy           DOUBLE                   comment 'energy',
     loudness         DOUBLE                   comment 'loudness',

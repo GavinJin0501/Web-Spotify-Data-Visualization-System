@@ -16,7 +16,7 @@ class PlaylistMapperTest {
     @Resource
     private PlaylistMapper playlistMapper;
 
-    private static final String tableName = "playlists_1725026668730429441";
+    private static final String tableName = "playlists_1731867749885267969";
 
     @Test
     void dropPreviousPlaylistTable() {
@@ -37,12 +37,20 @@ class PlaylistMapperTest {
 
     private List<PlaylistSong> generateSongs() {
         List<PlaylistSong> songs = new ArrayList<>();
-        PlaylistSong song1 = new PlaylistSong();
-        song1.setPlaylistName("ggg");
-        PlaylistSong song2 = new PlaylistSong();
 
-        songs.add(song1);
-        songs.add(song2);
+        for (int i = 0; i < 500; i++) {
+            PlaylistSong song = new PlaylistSong();
+            song.setPlaylistName("ggg" + i);
+            song.setTrackUri("hahaha" + i);
+            songs.add(song);
+        }
+
         return songs;
+    }
+
+    @Test
+    void getPlaylistFeatures() {
+        String tableName = "playlists_1731867749885267969";
+        System.out.println(playlistMapper.getPlaylistFeatures(tableName));
     }
 }

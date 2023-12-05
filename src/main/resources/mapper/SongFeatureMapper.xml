@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.gavinjin.wsdvs.mapper.SongFeatureMapper">
+    <resultMap id="BaseResultMap" type="com.gavinjin.wsdvs.model.domain.SongFeature">
+        <result property="trackUri" column="track_uri" jdbcType="VARCHAR"/>
+        <result property="danceability" column="danceability" jdbcType="DOUBLE"/>
+        <result property="energy" column="energy" jdbcType="DOUBLE"/>
+        <result property="loudness" column="loudness" jdbcType="DOUBLE"/>
+        <result property="liveness" column="liveness" jdbcType="DOUBLE"/>
+        <result property="valence" column="valence" jdbcType="DOUBLE"/>
+        <result property="tempo" column="tempo" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <select id="findUnavailableSongs" parameterType="string" resultType="string">
+        SELECT SUBSTR(t1.track_uri, 15)
+        FROM ${tableName} AS t1 LEFT JOIN song_features AS t2 ON t1.track_uri = t2.track_uri
+        WHERE t2.track_uri IS NULL
+    </select>
+</mapper>

@@ -1,7 +1,9 @@
 package com.gavinjin.wsdvs.utils.constant;
 
 import java.text.SimpleDateFormat;
-import java.time.format.DateTimeFormatter;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public interface UserConstant {
     /**
@@ -11,6 +13,8 @@ public interface UserConstant {
     int USERNAME_LEN_HI = 32;
     int PASSWORD_LEN_LO = 6;
     int PASSWORD_LEN_HI = 512;
+
+    Set<String> VALID_COMPRESSED_FILE_SUFFICES = new HashSet<>(Arrays.asList("zip", "rar"));
 
     /**
      * DB fields names
