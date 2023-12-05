@@ -5,26 +5,37 @@
 <mapper namespace="com.gavinjin.wsdvs.mapper.ExtendedStreamingHistoryMapper">
     <resultMap id="BaseResultMap" type="com.gavinjin.wsdvs.model.domain.ExtendedStreamingHistorySong">
         <result property="trackUri" column="track_uri" jdbcType="VARCHAR"/>
-        <result property="timestamp" column="timestamp" jdbcType="VARCHAR"/>
-        <result property="millisecondsPlayed" column="ms_played" jdbcType="BIGINT"/>
+        <result property="timestamp" column="timestamp" jdbcType="TIMESTAMP"/>
+        <result property="secPlayed" column="sec_played" jdbcType="INTEGER"/>
     </resultMap>
 
     <update id="createNewExtendedStreamingHistoryTable" parameterType="java.lang.String">
         CREATE TABLE IF NOT EXISTS ${tableName} (
             track_uri   VARCHAR(64)    comment 'track uri',
-            timestamp   VARCHAR(64)    comment 'timestamp listening to songs',
-            ms_played   LONG            comment 'milliseconds of music played',
+            timestamp   DATETIME      comment 'timestamp listening to songs',
+            sec_played  INT           comment 'seconds of music played',
             index idx_history_timestamp(timestamp),
             index idx_track_uri(track_uri)
         ) collate = utf8mb4_unicode_ci;
     </update>
 
     <insert id="insertAllHistories" parameterType="java.util.ArrayList">
-        INSERT INTO ${tableName} (track_uri, timestamp, ms_played)
+        INSERT INTO ${tableName} (track_uri, timestamp, sec_played)
         VALUES
             <foreach collection="list" item="item" index="index" separator=",">
-                (#{item.trackUri}, #{item.timestamp}, #{item.millisecondsPlayed})
+                (#{item.trackUri}, #{item.timestamp}, #{item.secPlayed})
             </foreach>
     </insert>
 
+    <resultMap id="SecPlayedByDay" type="com.gavinjin.wsdvs.model.vo.SecPlayedByDayVO">
+        <result property="day" column="day_of_week" jdbcType="VARCHAR"/>
+        <result property="secPlayed" column="sec_played" jdbcType="BIGINT"/>
+    </resultMap>
+
+    <select id="getSecPlayedByDay" parameterType="java.lang.String" resultMap="SecPlayedByDay">
+        SELECT DAYOFWEEK(timestamp) AS day_of_week, SUM(sec_played) AS sec_played
+        FROM ${tableName}
+        GROUP BY DAYOFWEEK(timestamp)
+        ORDER BY day_of_week
+    </select>
 </mapper>

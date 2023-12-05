@@ -9,22 +9,25 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.gavinjin.wsdvs.model.domain.ExtendedStreamingHistorySong;
 import com.gavinjin.wsdvs.model.domain.User;
 import com.gavinjin.wsdvs.model.dto.BaseResponse;
+import com.gavinjin.wsdvs.model.vo.SecPlayedByDayVO;
 import com.gavinjin.wsdvs.service.ExtendedStreamingHistoryService;
 import com.gavinjin.wsdvs.service.UserService;
 import com.gavinjin.wsdvs.utils.ResponseUtils;
 import com.gavinjin.wsdvs.utils.constant.StatusCode;
 import com.gavinjin.wsdvs.utils.exception.BusinessException;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestPart;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
+import java.sql.Timestamp;
+import java.time.Instant;
+import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 
@@ -91,14 +94,18 @@ public class HistoryController {
 
                         ExtendedStreamingHistorySong song = new ExtendedStreamingHistorySong();
                         song.setTrackUri(jsonNode.get("spotify_track_uri").asText());
-                        song.setTimestamp(jsonNode.get("ts").asText());
-                        song.setMillisecondsPlayed(jsonNode.get("ms_played").asLong());
+                        song.setTimestamp(Timestamp.from(Instant.from(DateTimeFormatter.ISO_INSTANT.parse(jsonNode.get("ts").asText())).truncatedTo(ChronoUnit.MILLIS)));
+                        song.setSecPlayed((int) (jsonNode.get("ms_played").asLong() / 1000));
 
                         list.add(song);
                         if (list.size() == BATCH_SIZE) {
                             extendedStreamingHistoryService.insertAllHistories(tableName, list);
                             list.clear();
                         }
+                    }
+                    if (list.size() > 0) {
+                        extendedStreamingHistoryService.insertAllHistories(tableName, list);
+                        list.clear();
                     }
                 }
             }
@@ -109,4 +116,42 @@ public class HistoryController {
 
         return ResponseUtils.success(true);
     }
+
+    @GetMapping("/get-sec-played-by-day")
+    public BaseResponse<List<SecPlayedByDayVO>> getSecPlayedByDay(HttpServletRequest request) {
+        if (request == null) {
+            throw new BusinessException(StatusCode.PARAMS_ERROR, "Empty http request");
+        }
+        User user = userService.getLoggedInUser(request);
+        String tableName = DB_TABLE_HISTORY + user.getId();
+
+        List<SecPlayedByDayVO> list = extendedStreamingHistoryService.getSecPlayedByDay(tableName);
+        return ResponseUtils.success(list);
+    }
+
+    // 2. 早中晚凌晨：ms_played
+    @GetMapping("/get-sec-played-by-periods")
+    public BaseResponse<Map<String, Long>> getSecPlayedByPeriods(HttpServletRequest request) {
+        if (request == null) {
+            throw new BusinessException(StatusCode.PARAMS_ERROR, "Empty http request");
+        }
+        User user = userService.getLoggedInUser(request);
+        String tableName = DB_TABLE_HISTORY + user.getId();
+
+        Map<String, Long> map = extendedStreamingHistoryService.getSecPlayedByPeriods(tableName);
+        return ResponseUtils.success(map);
+    }
+
+    @GetMapping("/get-sec-played-by-hours")
+    public BaseResponse<Map<Integer, Long>> getSecPlayedByHours(HttpServletRequest request) {
+        if (request == null) {
+            throw new BusinessException(StatusCode.PARAMS_ERROR, "Empty http request");
+        }
+        User user = userService.getLoggedInUser(request);
+        String tableName = DB_TABLE_HISTORY + user.getId();
+
+        Map<Integer, Long> map = extendedStreamingHistoryService.getSecPlayedByHours(tableName);
+        return ResponseUtils.success(map);
+    }
+
 }

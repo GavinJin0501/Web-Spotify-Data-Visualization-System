@@ -60,8 +60,8 @@ public class TestFileOperations {
             JSONObject jsonObject = jsonArray.getJSONObject(i);
             ExtendedStreamingHistorySong song = new ExtendedStreamingHistorySong();
             song.setTrackUri(jsonObject.get("spotify_track_uri", String.class));
-            song.setTimestamp(jsonObject.get("ts", String.class));
-            song.setMillisecondsPlayed(jsonObject.get("ms_played", Long.class));
+            // song.setTimestamp(jsonObject.get("ts", String.class));
+            song.setSecPlayed(jsonObject.get("ms_played", Long.class));
         }
         System.out.println(jsonArray.size());
 
@@ -86,8 +86,8 @@ public class TestFileOperations {
 
                 ExtendedStreamingHistorySong song = new ExtendedStreamingHistorySong();
                 song.setTrackUri(jsonObject.get("spotify_track_uri").asText());
-                song.setTimestamp(jsonObject.get("ts").asText());
-                song.setMillisecondsPlayed(jsonObject.get("ms_played").asLong());
+                // song.setTimestamp(jsonObject.get("ts").asText());
+                song.setSecPlayed(jsonObject.get("ms_played").asLong());
 
                 i++;
             }
