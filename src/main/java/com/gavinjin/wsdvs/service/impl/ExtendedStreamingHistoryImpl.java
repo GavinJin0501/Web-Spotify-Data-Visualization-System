@@ -59,4 +59,9 @@ public class ExtendedStreamingHistoryImpl extends ServiceImpl<ExtendedStreamingH
         }
         return map;
     }
+
+    @Override
+    public Long getTotalListenedSongs(String tableName) {
+        return extendedStreamingHistoryMapper.getTotalListenedSongs(tableName);
+    }
 }

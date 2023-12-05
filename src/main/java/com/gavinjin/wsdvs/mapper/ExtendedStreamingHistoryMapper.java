@@ -22,6 +22,9 @@ public interface ExtendedStreamingHistoryMapper extends BaseMapper<ExtendedStrea
 
     List<SecPlayedByDayVO> getSecPlayedByDay(@NotNull String tableName);
 
-    @Select("SELECT SUM(sec_played) FROM ${tableName} WHERE HOUR(timestamp) >= ${from} AND HOUR(timestamp) < ${to}")
+    @Select("SELECT SUM(sec_played) FROM ${tableName} WHERE HOUR(CONVERT_TZ(timestamp, '+00:00', '-05:00')) >= ${from} AND HOUR(CONVERT_TZ(timestamp, '+00:00', '-05:00')) < ${to}")
     Long getSecPlayedByPeriods(@NotNull String tableName, @NotNull Integer from, @NotNull Integer to);
+
+    @Select("SELECT COUNT(*) FROM ${tableName}")
+    Long getTotalListenedSongs(String tableName);
 }

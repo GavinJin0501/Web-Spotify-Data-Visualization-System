@@ -117,6 +117,18 @@ public class HistoryController {
         return ResponseUtils.success(true);
     }
 
+    @GetMapping("/get-total-listened-songs")
+    public BaseResponse<Long> getTotalListenedSongs(HttpServletRequest request) {
+        if (request == null) {
+            throw new BusinessException(StatusCode.PARAMS_ERROR, "Empty http request");
+        }
+        User user = userService.getLoggedInUser(request);
+        String tableName = DB_TABLE_HISTORY + user.getId();
+
+        Long totalListenedSongs = extendedStreamingHistoryService.getTotalListenedSongs(tableName);
+        return ResponseUtils.success(totalListenedSongs);
+    }
+
     @GetMapping("/get-sec-played-by-day")
     public BaseResponse<List<SecPlayedByDayVO>> getSecPlayedByDay(HttpServletRequest request) {
         if (request == null) {

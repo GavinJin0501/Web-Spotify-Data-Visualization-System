@@ -40,3 +40,9 @@ CREATE TABLE IF NOT EXISTS song_features (
     valence          DOUBLE                   comment 'valence',
     tempo            DOUBLE                   comment 'tempo'
 ) comment 'Song features obtained from spotify api' collate = utf8mb4_unicode_ci;
+
+DROP TABLE IF EXISTS artist_genre;
+CREATE TABLE IF NOT EXISTS artist_genre (
+    name    VARCHAR(64)     PRIMARY KEY comment 'name of the artist',
+    genre   VARCHAR(64)                 comment 'most popular genre of the artists'
+)

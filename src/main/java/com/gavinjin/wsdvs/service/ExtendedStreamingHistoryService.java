@@ -19,4 +19,6 @@ public interface ExtendedStreamingHistoryService extends IService<ExtendedStream
     Map<String, Long> getSecPlayedByPeriods(String tableName);
 
     Map<Integer, Long> getSecPlayedByHours(String tableName);
+
+    Long getTotalListenedSongs(String tableName);
 }

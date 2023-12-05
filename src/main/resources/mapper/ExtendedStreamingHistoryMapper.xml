@@ -33,9 +33,9 @@
     </resultMap>
 
     <select id="getSecPlayedByDay" parameterType="java.lang.String" resultMap="SecPlayedByDay">
-        SELECT DAYOFWEEK(timestamp) AS day_of_week, SUM(sec_played) AS sec_played
+        SELECT DAYOFWEEK(CONVERT_TZ(timestamp, "+00:00", "-05:00")) AS day_of_week, SUM(sec_played) AS sec_played
         FROM ${tableName}
-        GROUP BY DAYOFWEEK(timestamp)
+        GROUP BY DAYOFWEEK(CONVERT_TZ(timestamp, "+00:00", "-05:00"))
         ORDER BY day_of_week
     </select>
 </mapper>
