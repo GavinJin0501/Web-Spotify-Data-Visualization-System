@@ -2,6 +2,7 @@ package com.gavinjin.wsdvs.controller;
 
 import com.gavinjin.wsdvs.model.domain.User;
 import com.gavinjin.wsdvs.model.dto.BaseResponse;
+import com.gavinjin.wsdvs.model.vo.ArtistFeaturesVO;
 import com.gavinjin.wsdvs.model.vo.PlaylistFeaturesVO;
 import com.gavinjin.wsdvs.service.PlaylistService;
 import com.gavinjin.wsdvs.service.UserService;
@@ -32,6 +33,15 @@ public class PlaylistController {
         User user = userService.getLoggedInUser(request);
         String tableName = DB_TABLE_PLAYLISTS + user.getId();
         List<PlaylistFeaturesVO> res = playlistService.getPlaylistFeatures(tableName);
+        return ResponseUtils.success(res);
+    }
+
+
+    @GetMapping("/get-avg-features-per-artist")
+    public BaseResponse<List<ArtistFeaturesVO>> getAvgFeaturesPerArtist(HttpServletRequest request) {
+        User user = userService.getLoggedInUser(request);
+        String tableName = DB_TABLE_PLAYLISTS + user.getId();
+        List<ArtistFeaturesVO> res = playlistService.getArtistFeatures(tableName);
         return ResponseUtils.success(res);
     }
 }

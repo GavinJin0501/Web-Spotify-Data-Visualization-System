@@ -9,6 +9,7 @@ import com.gavinjin.wsdvs.api.SpotifyApi;
 import com.gavinjin.wsdvs.mapper.PlaylistMapper;
 import com.gavinjin.wsdvs.model.domain.PlaylistSong;
 import com.gavinjin.wsdvs.model.domain.SongFeature;
+import com.gavinjin.wsdvs.model.vo.ArtistFeaturesVO;
 import com.gavinjin.wsdvs.model.vo.PlaylistFeaturesVO;
 import com.gavinjin.wsdvs.service.PlaylistService;
 import com.gavinjin.wsdvs.service.SongFeatureService;
@@ -115,6 +116,11 @@ public class PlaylistServiceImpl extends ServiceImpl<PlaylistMapper, PlaylistSon
     @Override
     public List<PlaylistFeaturesVO> getPlaylistFeatures(String tableName) {
         return playlistMapper.getPlaylistFeatures(tableName);
+    }
+
+    @Override
+    public List<ArtistFeaturesVO> getArtistFeatures(String tableName) {
+        return playlistMapper.getArtistFeatures(tableName);
     }
 
 }

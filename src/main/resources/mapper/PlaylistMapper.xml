@@ -12,6 +12,27 @@
         <result property="addedDate" column="added_date" jdbcType="DATE"/>
     </resultMap>
 
+    <resultMap id="PlaylistFeaturesMap" type="com.gavinjin.wsdvs.model.vo.PlaylistFeaturesVO">
+        <result property="playlistName" column="playlist_name" jdbcType="VARCHAR"/>
+        <result property="danceability" column="danceability" jdbcType="DOUBLE"/>
+        <result property="energy" column="energy" jdbcType="DOUBLE"/>
+        <result property="loudness" column="loudness" jdbcType="DOUBLE"/>
+        <result property="liveness" column="liveness" jdbcType="DOUBLE"/>
+        <result property="valence" column="valence" jdbcType="DOUBLE"/>
+        <result property="tempo" column="tempo" jdbcType="DOUBLE"/>
+    </resultMap>
+
+    <resultMap id="ArtistFeaturesMap" type="com.gavinjin.wsdvs.model.vo.ArtistFeaturesVO">
+        <result property="artistName" column="artist_name" jdbcType="VARCHAR"/>
+        <result property="danceability" column="danceability" jdbcType="DOUBLE"/>
+        <result property="energy" column="energy" jdbcType="DOUBLE"/>
+        <result property="loudness" column="loudness" jdbcType="DOUBLE"/>
+        <result property="liveness" column="liveness" jdbcType="DOUBLE"/>
+        <result property="valence" column="valence" jdbcType="DOUBLE"/>
+        <result property="tempo" column="tempo" jdbcType="DOUBLE"/>
+        <result property="total" column="total" jdbcType="INTEGER"/>
+    </resultMap>
+
     <update id="createNewPlaylistTable" parameterType="java.lang.String">
         CREATE TABLE IF NOT EXISTS ${tableName} (
             playlist_name   VARCHAR(512)    comment 'playlist name',
@@ -34,16 +55,6 @@
             </foreach>
     </insert>
 
-    <resultMap id="PlaylistFeaturesMap" type="com.gavinjin.wsdvs.model.vo.PlaylistFeaturesVO">
-        <result property="playlistName" column="playlist_name" jdbcType="VARCHAR"/>
-        <result property="danceability" column="danceability" jdbcType="DOUBLE"/>
-        <result property="energy" column="energy" jdbcType="DOUBLE"/>
-        <result property="loudness" column="loudness" jdbcType="DOUBLE"/>
-        <result property="liveness" column="liveness" jdbcType="DOUBLE"/>
-        <result property="valence" column="valence" jdbcType="DOUBLE"/>
-        <result property="tempo" column="tempo" jdbcType="DOUBLE"/>
-    </resultMap>
-
     <select id="getPlaylistFeatures" parameterType="java.lang.String" resultMap="PlaylistFeaturesMap">
         SELECT p.playlist_name AS playlist_name,
                AVG(s.danceability) AS danceability,
@@ -54,5 +65,18 @@
                AVG(s.tempo) AS tempo
         FROM ${tableName} AS p JOIN song_features AS s ON p.track_uri = s.track_uri
         GROUP BY p.playlist_name
+    </select>
+
+    <select id="getArtistFeatures" parameterType="java.lang.String" resultMap="ArtistFeaturesMap">
+        SELECT p.artist_name AS artist_name,
+               AVG(s.danceability) AS danceability,
+               AVG(s.energy) AS energy,
+               AVG(s.loudness) AS loudness,
+               AVG(s.liveness) AS liveness,
+               AVG(s.valence) AS valence,
+               AVG(s.tempo) AS tempo,
+               COUNT(*) AS total
+        FROM ${tableName} AS p JOIN song_features AS s ON p.track_uri = s.track_uri
+        GROUP BY p.artist_name
     </select>
 </mapper>

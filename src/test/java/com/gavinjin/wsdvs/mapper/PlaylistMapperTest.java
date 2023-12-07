@@ -19,6 +19,11 @@ class PlaylistMapperTest {
     private static final String tableName = "playlists_1731867749885267969";
 
     @Test
+    void getArtistFeatures() {
+        System.out.println(playlistMapper.getArtistFeatures(tableName));
+    }
+
+    @Test
     void dropPreviousPlaylistTable() {
         System.out.println(playlistMapper.dropPreviousPlaylistTable(tableName));
     }
