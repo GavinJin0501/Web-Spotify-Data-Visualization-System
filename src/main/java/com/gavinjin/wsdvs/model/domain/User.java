@@ -69,7 +69,4 @@ public class User implements Serializable {
 
     @TableField("playlists_ready")
     private Boolean playlistsReady;
-
-    @TableField("streaming_history_ready")
-    private Boolean streamingHistoryReady;
 }

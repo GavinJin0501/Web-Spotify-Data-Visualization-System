@@ -25,7 +25,6 @@ CREATE TABLE IF NOT EXISTS user (
     spotify_inferences           TEXT                               comment 'spotify payments',
 
     playlists_ready              BOOL     default false             comment 'playlists table is ready',
-    streaming_history_ready      BOOL     default false             comment 'streaming history table is ready',
     index idx_username(username)
 ) comment 'User' collate  = utf8mb4_unicode_ci;
 

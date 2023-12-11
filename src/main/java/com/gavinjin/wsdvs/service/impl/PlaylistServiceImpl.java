@@ -9,10 +9,12 @@ import com.gavinjin.wsdvs.api.SpotifyApi;
 import com.gavinjin.wsdvs.mapper.PlaylistMapper;
 import com.gavinjin.wsdvs.model.domain.PlaylistSong;
 import com.gavinjin.wsdvs.model.domain.SongFeature;
+import com.gavinjin.wsdvs.model.domain.User;
 import com.gavinjin.wsdvs.model.vo.ArtistFeaturesVO;
 import com.gavinjin.wsdvs.model.vo.PlaylistFeaturesVO;
 import com.gavinjin.wsdvs.service.PlaylistService;
 import com.gavinjin.wsdvs.service.SongFeatureService;
+import com.gavinjin.wsdvs.service.UserService;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -35,6 +37,9 @@ public class PlaylistServiceImpl extends ServiceImpl<PlaylistMapper, PlaylistSon
 
     @Resource
     private SongFeatureService songFeatureService;
+
+    @Resource
+    private UserService userService;
 
     @Resource
     private SpotifyApi spotifyApi;
@@ -60,7 +65,7 @@ public class PlaylistServiceImpl extends ServiceImpl<PlaylistMapper, PlaylistSon
                 List<PlaylistSong> songs = new ArrayList<>();
 
                 JSONArray items = JSONUtil.parseArray(playlist.get("items"));
-                System.out.println(playlistName + ": " + items.size());
+                // System.out.println(playlistName + ": " + items.size());
                 for (int j = 0; j < items.size(); j++) {
                     JSONObject item = items.getJSONObject(j);
 
@@ -109,6 +114,10 @@ public class PlaylistServiceImpl extends ServiceImpl<PlaylistMapper, PlaylistSon
 
                 songFeatureService.saveOrUpdateBatch(features);
             }
+
+            User user = userService.getById(userId);
+            user.setPlaylistsReady(true);
+            userService.updateById(user);
 
         }, threadPoolExecutor);
     }

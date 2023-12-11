@@ -2,8 +2,6 @@ package com.gavinjin.wsdvs.model.vo;
 
 import lombok.Data;
 
-import java.util.Date;
-
 /**
  * Userdata value object to visualize
  */
@@ -40,6 +38,4 @@ public class UserdataVO {
     private String spotifyInferences;
 
     private Boolean playlistsReady;
-
-    private Boolean streamingHistoryReady;
 }
