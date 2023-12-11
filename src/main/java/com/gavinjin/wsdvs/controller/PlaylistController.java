@@ -32,7 +32,7 @@ public class PlaylistController {
     @GetMapping("/get-avg-features")
     public BaseResponse<List<PlaylistFeaturesVO>> getAvgFeatures(HttpServletRequest request) {
         User user = userService.getLoggedInUser(request);
-        if (user.getPlaylistsReady()) {
+        if (!user.getPlaylistsReady()) {
             return ResponseUtils.error(StatusCode.PARAMS_ERROR.getCode(), "Playlist data processing, not ready.");
         }
         String tableName = DB_TABLE_PLAYLISTS + user.getId();
@@ -44,7 +44,7 @@ public class PlaylistController {
     @GetMapping("/get-avg-features-per-artist")
     public BaseResponse<List<ArtistFeaturesVO>> getAvgFeaturesPerArtist(HttpServletRequest request) {
         User user = userService.getLoggedInUser(request);
-        if (user.getPlaylistsReady()) {
+        if (!user.getPlaylistsReady()) {
             return ResponseUtils.error(StatusCode.PARAMS_ERROR.getCode(), "Playlist data processing, not ready.");
         }
         String tableName = DB_TABLE_PLAYLISTS + user.getId();
