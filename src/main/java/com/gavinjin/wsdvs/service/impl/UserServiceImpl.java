@@ -115,6 +115,7 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
     @Override
     public String convertUserAddressToString(String content) {
         StringBuilder sb = new StringBuilder();
+
         try {
             if (!content.startsWith("List(") || !content.endsWith(")")) {
                 return "";
@@ -146,8 +147,8 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User>
             }
         } catch (Exception e) {
             e.printStackTrace();
+            sb.setLength(0);
         }
-
 
         return String.format("[%s]", sb);
     }

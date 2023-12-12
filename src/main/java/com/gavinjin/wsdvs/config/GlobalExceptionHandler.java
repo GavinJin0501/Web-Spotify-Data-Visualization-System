@@ -19,7 +19,7 @@ public class GlobalExceptionHandler {
             return ResponseUtils.error(be.getCode(), be.getMessage());
         } catch (Exception ee) {
             log.error("Exception", e);
-            return ResponseUtils.error(StatusCode.SYSTEM_ERROR.getCode(), e.getMessage());
+            return ResponseUtils.error(StatusCode.SYSTEM_ERROR.getCode(), "Internal http server error");
         }
     }
 }
