@@ -23,7 +23,7 @@ Then configure the id and secret in [application.yml](src/main/resources/applica
     ```bash
     $ cd project-directory
     $ mvn clean install
-    $ java -jar target/Web-Spotify-Data-Visualization-System-0.0.1-SNAPSHOT.jar
+    $ java -jar target/project-jar-file.jar
     ```
 
 ## API Documentation
