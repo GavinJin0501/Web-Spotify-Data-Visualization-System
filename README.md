@@ -13,7 +13,7 @@ For a detailed explanation of this project including both frontend and backend d
 
 ## Get Started
 To run this backend service, you need to complete 3 steps.
-1. Install all the dependencies using pom.xml:
+1. Install all the dependencies using maven and our pom.xml:
     ```bash
     $ cd project-directory
     $ mvn clean install
