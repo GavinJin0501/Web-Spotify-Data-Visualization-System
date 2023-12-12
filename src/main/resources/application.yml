@@ -1,20 +1,24 @@
 spring:
   application:
-    name: Web-Spotify-Data-Visualization-System
+    name: SAMPLE NAME # set project name
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://localhost:3306/spotify_visualization_system?useSSL=false&serverTimezone=UTC
-    username: root
-    password:
+    url: SAMPLE URL # set database url
+    username: SAMPLE USERNAME # change username
+    password: SAMPLE PASSWORD # change
 
   mvc:
     pathmatch:
       matching-strategy: ant_path_matcher
 
+  servlet:
+    multipart:
+      max-file-size: 10MB # set the maximum file size that can upload
+
 server:
-  address: 0.0.0.0
-  port: 8011
+  address: 0.0.0.0 # set your server ip
+  port: 8011 # set your server port
   servlet:
     context-path: /api
     # cookie expires after 30 days
@@ -23,14 +27,15 @@ server:
         max-age: 2592000
 
 mybatis-plus:
-  type-aliases-package: com.gavinjin.wsdvs
+  type-aliases-package: com.gavinjin.wsdvs # set your package name
   configuration:
+    map-underscore-to-camel-case: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
-#  global-config:
-#    db-config:
-#      logic-delete-field: isDelete # logical delete field
-#      logic-delete-value: 1 # logical deleted state: by default is 1
-#      logic-not-delete-value: 0 # logical not deleted state: by default is 0
 
 user-service:
-  encrypt-salt: "Gavin Jin"
+  # salt to encrypt your password in the database
+  encrypt-salt: SAMPLE SALT # set your encryption salt
+
+  # Credentials to access spotify api: https://developer.spotify.com/documentation/web-api/tutorials/getting-started
+  spotify-client-id: SAMPLE CLIENT ID
+  spotify-client-secret: SAMPLE CLIENT SECRET
