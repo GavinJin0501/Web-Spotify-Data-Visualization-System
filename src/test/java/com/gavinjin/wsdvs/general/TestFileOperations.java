@@ -17,7 +17,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
 import java.io.File;
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 
 @SpringBootTest
 public class TestFileOperations {
@@ -25,9 +28,10 @@ public class TestFileOperations {
     private UserService userService;
 
     @Test
-    public void testReadUserAddress() {
+    public void testReadUserAddress() throws IOException {
         String fileName = "./src/main/resources/spotify_data/UserAddress.json";
-        String json = userService.convertUserAddressToString(fileName);
+        String content = new String(Files.readAllBytes(Paths.get(fileName)));
+        String json = userService.convertUserAddressToString(content);
         JSONArray objects = JSONUtil.parseArray(json);
         for (Object each : objects) {
             System.out.println(each);

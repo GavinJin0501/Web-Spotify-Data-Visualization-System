@@ -1,22 +1,32 @@
 package com.gavinjin.wsdvs.mapper;
 
 import com.gavinjin.wsdvs.model.domain.PlaylistSong;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import javax.annotation.Resource;
-
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class PlaylistMapperTest {
     @Resource
     private PlaylistMapper playlistMapper;
 
-    private static final String tableName = "playlists_1731867749885267969";
+    private static final String tableName = "playlists_test";
+
+    @BeforeEach
+    void setUpTable() {
+        playlistMapper.dropPreviousPlaylistTable(tableName);
+        playlistMapper.createNewPlaylistTable(tableName);
+    }
+
+    @AfterEach
+    void deleteTable() {
+        playlistMapper.dropPreviousPlaylistTable(tableName);
+    }
 
     @Test
     void getArtistFeatures() {
