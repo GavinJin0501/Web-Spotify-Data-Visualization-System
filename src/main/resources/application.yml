@@ -1,12 +1,12 @@
 spring:
   application:
-    name: SAMPLE NAME # set project name
+    name: Web-Spotify-Data-Visualization-System
 
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: SAMPLE URL # set database url
-    username: SAMPLE USERNAME # change username
-    password: SAMPLE PASSWORD # change
+    url: jdbc:mysql://localhost:3306/database_name # NEED TO CHANGE
+    username: username # NEED TO CHANGE
+    password: password # NEED TO CHANGE
 
   mvc:
     pathmatch:
@@ -27,7 +27,7 @@ server:
         max-age: 2592000
 
 mybatis-plus:
-  type-aliases-package: com.gavinjin.wsdvs # set your package name
+  type-aliases-package: com.gavinjin.wsdvs
   configuration:
     map-underscore-to-camel-case: false
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
@@ -37,5 +37,5 @@ user-service:
   encrypt-salt: SAMPLE SALT # set your encryption salt
 
   # Credentials to access spotify api: https://developer.spotify.com/documentation/web-api/tutorials/getting-started
-  spotify-client-id: SAMPLE CLIENT ID
-  spotify-client-secret: SAMPLE CLIENT SECRET
+  spotify-client-id: SAMPLE CLIENT ID # NEED TO CHANGE
+  spotify-client-secret: SAMPLE CLIENT SECRET # NEED TO CHANGE
